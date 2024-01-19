@@ -23,7 +23,7 @@ describe('Forgot Password', () => {
     cy.visit('https://the-internet.herokuapp.com/login')
     cy.get('#username').type("tomsmith")
     cy.get('#password').type("SuperSecretPassword!")
-    cy.xpath(`//button[@type='submit']`).click()
+    cy.get(`button[type='submit']`).click()
     cy.get('.flash').should('be.visible').and('contain', 'You logged into a secure area!');
   })
 
