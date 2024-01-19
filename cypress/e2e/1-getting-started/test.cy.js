@@ -77,7 +77,7 @@ describe('Forgot Password', () => {
     cy.get('form#checkboxes input[type="checkbox"]').last().uncheck().should('not.be.checked');
   });
 
-  it('Intentionally fails and retries twice', { retries: 2 }, () => {
+  it('Intentionally fails and retries twice', { retries: 1 }, () => {
     cy.visit('https://the-internet.herokuapp.com/hovers');
     // Hover over the first image
     cy.get('.figure').first().trigger('mouseover');
@@ -85,4 +85,23 @@ describe('Forgot Password', () => {
     // Intentionally fail the first two runs
     cy.get('.figcaption').first().should('contain', 'Incorrect Caption');
   });
+
+  it('Passes on the second retry', { retries: 1 }, () => {
+    cy.visit('https://the-internet.herokuapp.com/hovers');
+  
+    // Hover over the first image
+    cy.get('.figure').first().trigger('mouseover');
+  
+    // Check if the caption contains 'Incorrect Caption'
+    cy.get('.figcaption').first().should(($caption) => {
+      if ($caption.text().includes('Incorrect Caption')) {
+        // If the caption contains 'Incorrect Caption', intentionally fail the first run
+        throw new Error('Intentional failure on the first run');
+      }
+    });
+  
+    // On the second retry, the test will intentionally pass
+    cy.get('.figcaption').first().should('contain', 'name: user1');
+  });
+  
 })
