@@ -3,6 +3,41 @@ require('cypress-real-events/support');
 require('cypress-xpath');
 const LoginPage = require("../../pageObjects/loginPage");
 
+const invalidUsername = 'invaliduser';
+const invalidPassword = 'InvalidPassword123';
+
+Given('I am on the login page', () => {
+    LoginPage.visit();
+});
+
+
+When('I enter valid credentials', () => {
+    cy.debug(); // Debugging point (if needed)
+    LoginPage.typeUsername(username);
+    LoginPage.typePassword(password);
+    cy.debug(); // Debugging point (if needed)
+    LoginPage.clickLogin();
+});
+
+When('I fill in invalid credentials', () => {
+    LoginPage.typeUsername(invalidUsername);
+    LoginPage.typePassword(invalidPassword);
+});
+
+And('I submit the login form', () => {
+    LoginPage.clickLogin();
+});
+
+Then('I should see a validation message', () => {
+    LoginPage.getValidationMessage().should('be.visible');
+});
+
+Then('I should be logged in successfully', () => {
+    LoginPage.checkUrlContains('/secure');
+    LoginPage.checkWelcomeMessageVisible();
+});
+
+
 Given("I am on the forgot password page of herokoapp", () => {
     cy.visit("https://the-internet.herokuapp.com/forgot_password");
 });

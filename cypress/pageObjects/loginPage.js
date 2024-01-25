@@ -1,5 +1,26 @@
 require('cypress-xpath');
 class LoginPage {
+
+  visit() {
+    cy.visit('https://the-internet.herokuapp.com/login');
+}
+
+typeUsername(username) {
+    cy.get('#username').as('usernameInput').type(username);
+}
+
+typePassword(password) {
+    cy.get('#password').as('passwordInput').type(password);
+}
+
+clickLogin() {
+    cy.get('button[type="submit"]').as('loginButton').click();
+}
+
+getValidationMessage() {
+    return cy.contains('Your username is invalid!');
+}
+
   usernameField() {
     return cy.get('[data-testid="Email input"]');
   }
@@ -72,6 +93,13 @@ class LoginPage {
     return cy.get('form#checkboxes input[type="checkbox"]').last();
   }
 
+  checkUrlContains(text) {
+    cy.url().should('include', text);
+}
+
+checkWelcomeMessageVisible() {
+  cy.contains('Welcome to the Secure Area').should('be.visible');
+}
 
 }
 module.exports = new LoginPage;

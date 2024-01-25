@@ -1,12 +1,12 @@
 Feature: Login
 
-  Scenario : Forgot Password with Invalid Address
+    Scenario : Forgot Password with Invalid Address
     Given I am on the forgot password page of herokoapp
     And I type "zubair@co-ventech.com" in the email field
     And I click on Submit button
 
 
-  Scenario : Forgot password with invalid email address
+    Scenario : Forgot password with invalid email address
     Given I am on the forgot password page of herokoapp
     And I type "zubair@" in the email field
     And I click on Submit button
@@ -64,3 +64,14 @@ Feature: Login
     And I wait for 3 seconds
     Then the second checkbox should not be checked
     And I wait for 3 seconds
+
+  Scenario: Validating error messages with invalid credentials
+    Given I am on the login page
+    When I fill in invalid credentials
+    And I submit the login form
+    Then I should see a validation message
+
+    Scenario: Successful login with debugging points
+    Given I am on the login page
+    When I enter valid credentials
+    Then I should be logged in successfully
