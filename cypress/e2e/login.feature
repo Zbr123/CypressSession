@@ -71,7 +71,7 @@ Feature: Login
     And I submit the login form
     Then I should see a validation message
 
-    Scenario: Successful login with debugging points
+  Scenario: Successful login with debugging points
     Given I am on the login page
-    When I enter valid credentials
+    When I enter my username "tomsmith" and password "SuperSecretPassword!" into the login form
     Then I should be logged in successfully

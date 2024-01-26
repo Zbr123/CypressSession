@@ -6,12 +6,13 @@ const LoginPage = require("../../pageObjects/loginPage");
 const invalidUsername = 'invaliduser';
 const invalidPassword = 'InvalidPassword123';
 
+
 Given('I am on the login page', () => {
     LoginPage.visit();
 });
 
 
-When('I enter valid credentials', () => {
+When('I enter my username {string} and password {string} into the login form', (username, password) => {
     cy.debug(); // Debugging point (if needed)
     LoginPage.typeUsername(username);
     LoginPage.typePassword(password);
