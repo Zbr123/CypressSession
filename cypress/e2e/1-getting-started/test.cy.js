@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+// / <reference types="cypress" />
 require('cypress-xpath');
 
 describe('Forgot Password', () => {
@@ -164,6 +164,62 @@ describe('Forgot Password', () => {
       cy.contains('Welcome to the Secure Area').should('be.visible'); // Check for a welcome message
     });
   });
+ 
+  
+  describe('Multiple Tabs Test', () => {
+    it('Simulates interactions with multiple tabs', () => {
+      // Visit the main page
+      cy.visit('https://the-internet.herokuapp.com');
+  
+      // Navigate to 'Multiple Windows'
+      cy.contains('Multiple Windows').click();
+  
+      // Click the link that normally opens a new window and capture the URL
+      cy.get('a[href="/windows/new"]').then($link => {
+        const newWindowUrl = $link.prop('href');
+  
+        // Directly visit the new window URL
+        cy.visit(newWindowUrl);
+      });
+  
+      // Perform interactions or assertions on the new page
+      cy.contains('New Window');
+  
+      // Navigate back to the original page
+      cy.visit('https://the-internet.herokuapp.com/windows');
+    });
+  });
+
+  // access new tab by clicking on "href". when don't have target attribute to remove and test on new opened tab?
+
+  describe('Accessing a New Page via Link URL', () => {
+    it('Captures link URL and visits it in the same tab', () => {
+      const baseUrl = 'https://the-internet.herokuapp.com';
+  
+      // Visit the main page with a wait
+      cy.visit(baseUrl);
+      cy.wait(1000); // Wait for 1 second
+  
+      // Find the link and get its href attribute
+      cy.get('a[href="/abtest"]').invoke('attr', 'href').then(href => {
+        const absoluteUrl = href.startsWith('http') ? href : baseUrl + href;
+  
+        // Wait before visiting the new URL
+        cy.wait(1000); // Wait for 1 second
+  
+        // Visit the link's URL
+        cy.visit(absoluteUrl);
+        cy.wait(1000); // Wait for 1 second
+      });
+  
+      // Perform assertions or interactions on the new page
+      cy.get('h3').should('contain', 'A/B Test').wait(1000); // Wait after assertion
+    });
+  });
+  
+  
+  
+  
   
   
 })
