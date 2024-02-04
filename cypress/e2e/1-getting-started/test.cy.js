@@ -3,24 +3,26 @@ require('cypress-xpath');
 
 describe('Forgot Password', () => {
   beforeEach(() => {
-    // cy.visit('https://the-internet.herokuapp.com/forgot_password')
+    // No need to specify cy.visit() here
   })
 
   it('Forgot password with valid email address', () => {
-    cy.visit('https://the-internet.herokuapp.com/forgot_password')
+    // Use the base URL defined in your configuration
+    cy.visit('/forgot_password'); // Cypress will automatically prepend the base URL
     cy.get('#email').type("zubair@co-ventech.com")
     cy.get('#form_submit').click()
   })
 
 
+
   it('Forgot password with invalid email address', () => {
-    cy.visit('https://the-internet.herokuapp.com/forgot_password')
+    cy.visit('/forgot_password')
     cy.get('#email').type("zubair@")
     cy.get('#form_submit').click()
   })
 
   it('Login with correct username and password', () => {
-    cy.visit('https://the-internet.herokuapp.com/login')
+    cy.visit('/login')
     cy.get('#username').type("tomsmith")
     cy.get('#password').type("SuperSecretPassword!")
     cy.get(`button[type='submit']`).click()
@@ -29,7 +31,7 @@ describe('Forgot Password', () => {
 
   //XPATH SCENARIO
   it('Login with correct username and password using xpath for login button', () => {
-    cy.visit('https://the-internet.herokuapp.com/login')
+    cy.visit('/login')
     cy.get('#username').type("tomsmith")
     cy.get('#password').type("SuperSecretPassword!")
     cy.xpath(`//button[@type='submit']`).click()
@@ -41,7 +43,7 @@ describe('Forgot Password', () => {
 
   it('Clears the password field', () => {
     // Type something in the password field and then clear it
-    cy.visit('https://the-internet.herokuapp.com/login')
+    cy.visit('/login')
     cy.get('#password').type('Password');
     cy.wait(5000);
     cy.get('#password').clear();
@@ -51,7 +53,7 @@ describe('Forgot Password', () => {
 
   it('Selects an option from the dropdown', () => {
     // Visit the dropdown page
-    cy.visit('https://the-internet.herokuapp.com/dropdown');
+    cy.visit('/dropdown');
 
     // Select an option by its value
     cy.get('#dropdown').select('1').should('have.value', '1');
@@ -62,7 +64,7 @@ describe('Forgot Password', () => {
 
   it('Checks and unchecks checkboxes', () => {
     // The page has two checkboxes. We'll interact with both.
-    cy.visit('https://the-internet.herokuapp.com/checkboxes');
+    cy.visit('/checkboxes');
 
     // Check the first checkbox
     cy.get('form#checkboxes input[type="checkbox"]').first().check().should('be.checked');
@@ -78,7 +80,7 @@ describe('Forgot Password', () => {
   });
 
   it('Intentionally fails and retries twice', { retries: 1 }, () => {
-    cy.visit('https://the-internet.herokuapp.com/hovers');
+    cy.visit('/hovers');
     // Hover over the first image
     cy.get('.figure').first().trigger('mouseover');
 
@@ -87,7 +89,7 @@ describe('Forgot Password', () => {
   });
 
   it('Passes on the second retry', { retries: 1 }, () => {
-    cy.visit('https://the-internet.herokuapp.com/hovers');
+    cy.visit('/hovers');
   
     // Hover over the first image
     cy.get('.figure').first().trigger('mouseover');
@@ -108,7 +110,7 @@ describe('Forgot Password', () => {
   describe('Login Validation Test with Variables and Aliases', () => {
     it('Validates error messages using variables and aliases', () => {
       // Visit the login page
-      cy.visit('https://the-internet.herokuapp.com/login');
+      cy.visit('/login');
   
       // Define invalid login credentials
       const invalidUsername = 'invaliduser';
@@ -135,7 +137,7 @@ describe('Forgot Password', () => {
   describe('Login Test with Debugging', () => {
     it('Logs in with debugging', () => {
       // Visit the login page
-      cy.visit('https://the-internet.herokuapp.com/login');
+      cy.visit('/login');
   
       // Define login credentials
       const username = 'tomsmith';
@@ -169,7 +171,7 @@ describe('Forgot Password', () => {
   describe('Multiple Tabs Test', () => {
     it('Simulates interactions with multiple tabs', () => {
       // Visit the main page
-      cy.visit('https://the-internet.herokuapp.com');
+      cy.visit('/');
   
       // Navigate to 'Multiple Windows'
       cy.contains('Multiple Windows').click();
@@ -186,7 +188,7 @@ describe('Forgot Password', () => {
       cy.contains('New Window');
   
       // Navigate back to the original page
-      cy.visit('https://the-internet.herokuapp.com/windows');
+      cy.visit('/');
     });
   });
 
@@ -222,7 +224,7 @@ describe('Forgot Password', () => {
   describe('Dynamic Loading page', () => {
     it('successfully stubs the dynamic loading content', () => {
       // Step 1: Visit the Dynamic Loading page
-      cy.visit('https://the-internet.herokuapp.com/dynamic_loading/2');
+      cy.visit('/dynamic_loading/2');
   
       // Step 2 & 3: Intercept the request and stub the response
       cy.intercept('GET', '**/*', {

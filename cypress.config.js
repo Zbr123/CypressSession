@@ -1,5 +1,8 @@
+const { defineConfig } = require('cypress');
+
 module.exports = {
   e2e: {
+    baseUrl: 'https://the-internet.herokuapp.com/',
     video: true,
     screenshotsOnFail: true, 
     "chromeWebSecurity": false,
@@ -12,7 +15,8 @@ module.exports = {
       "overwrite": true,
       "html": true,
       "json": true
-    }
+    },
+  
   },
   
 };
